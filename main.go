@@ -85,11 +85,11 @@ func main() {
 		UPDATE todos
 		SET completed = ?
 		WHERE id = ?`
-		result, err := db_exec_helper[Todo](db, query,true, id)
+		result, err := db_exec_helper[Todo](db, query, true, id)
 		if err != nil {
 			return err
 		}
-		if result.RowsAffected == 0{
+		if result.RowsAffected == 0 {
 			return c.Status(400).JSON(fiber.Map{
 				"error": "Todo not found",
 			})
@@ -99,7 +99,7 @@ func main() {
 			return err
 		}
 		return c.Status(200).JSON(todos[0])
-		
+
 	})
 
 	app.Delete("/api/todos/:id", func(c *fiber.Ctx) error {
