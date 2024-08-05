@@ -42,7 +42,6 @@ func main() {
 
 	app := fiber.New()
 
-	// create todos example
 	todos := []Todo{}
 
 	app.Get("/api/todos/", func(c *fiber.Ctx) error {
@@ -55,7 +54,6 @@ func main() {
 		})
 	})
 
-	// create a post endpoint for todos
 	app.Post("/api/todos", func(c *fiber.Ctx) error {
 		todo := &Todo{}
 		if err := c.BodyParser(todo); err != nil {
