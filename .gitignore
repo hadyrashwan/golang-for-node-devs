@@ -1,3 +1,5 @@
 tmp/build-errors.log
+tmp/*
+air
 .env
 __debug_bin*
