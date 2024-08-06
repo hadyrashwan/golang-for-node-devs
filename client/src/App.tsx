@@ -1,20 +1,18 @@
-import { useState } from 'react'
-import { Button, Container, Stack } from '@chakra-ui/react'
+import { Container, Stack } from '@chakra-ui/react'
 import Navbar from './components/Navbar'
+import TodoForm from './components/TodoForm'
+import TodoList from './components/TodoList'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <Stack h='100vh'>
-     <Navbar>
+     <Navbar/>
 
     <Container> 
-      {/* TodoForm */}
-      {/* TodoList */}
+      <TodoForm/>
+      <TodoList/>
     </Container>
-     </Navbar>
-    <Button onClick={() => setCount( (count) => count + 1)} > Hello  count is {count} </Button>
     </Stack>
   )
 }
