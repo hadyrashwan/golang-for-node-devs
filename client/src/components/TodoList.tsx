@@ -1,7 +1,7 @@
 import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 import TodoItem from "./TodoItem";
 import { useQuery } from "@tanstack/react-query";
-
+import { BASE_URL } from "../App";
 export type Todo = {
     id: number;
     body: string
@@ -14,7 +14,7 @@ const TodoList = () => {
         queryKey: ["todos"],
         queryFn: async () => {
             try{
-                const response = await fetch("http://localhost:4500/api/todos");
+                const response = await fetch(BASE_URL + "/todos");
                 const data = await response.json();
                 if(!response.ok) throw new Error(  data.error || "Failed to fetch todos");
                 return data.todos || [];
@@ -42,7 +42,7 @@ const TodoList = () => {
 			)}
 			<Stack gap={3}>
 				{todos?.map((todo) => (
-					<TodoItem key={todo._id} todo={todo} />
+					<TodoItem key={todo.id} todo={todo} />
 				))}
 			</Stack>
 		</>
