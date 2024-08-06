@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/hadyrashwan/golang-for-node-devs/dboperations"
 	"github.com/joho/godotenv"
 )
@@ -41,6 +42,12 @@ func main() {
 	}
 
 	app := fiber.New()
+
+	crosConfig := cors.Config{
+		AllowOrigins: "http://localhost:5173",
+		AllowHeaders: "Origin,Content-Type,Accept",
+	}
+	app.Use(cors.New(crosConfig))
 
 	todos := []Todo{}
 
