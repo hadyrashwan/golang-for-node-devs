@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	// "log"
+	"log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -39,6 +39,10 @@ func init() {
 	// PORT := os.Getenv("PORT")
 	DB_URL := os.Getenv("DB_URL")
 	DB_TOKEN := os.Getenv("DB_TOKEN")
+
+	log.Println("DB_URL: ", DB_URL)
+	log.Println("DB_TOKEN: ", DB_TOKEN)
+
 
 	url := fmt.Sprintf("%s?authToken=%s", DB_URL, DB_TOKEN)
 
@@ -131,6 +135,8 @@ func init() {
 
 	})
 
+	log.Println("app defined: ", app)
+
 	fiberLambda = fiberadapter.New(app)
 
 	// log.Fatal(app.Listen(":" + PORT))
@@ -138,10 +144,12 @@ func init() {
 // Handler will deal with Fiber working with Lambda
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// If no name is provided in the HTTP request body, throw an error
+	log.Println("handler called")
 	return fiberLambda.ProxyWithContext(ctx, req)
 }
 
 func main() {
+	log.Println("main called")
 	// Make the handler available for Remote Procedure Call by AWS Lambda
 	lambda.Start(Handler)
 }
