@@ -3,3 +3,4 @@ tmp/*
 air
 .env
 __debug_bin*
+.DS_Store
