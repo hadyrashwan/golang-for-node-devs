@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -9,7 +10,12 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/hadyrashwan/golang-for-node-devs/dboperations"
 	"github.com/joho/godotenv"
+
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
+	fiberadapter "github.com/awslabs/aws-lambda-go-api-proxy/fiber"
 )
+var fiberLambda *fiberadapter.FiberLambda
 
 type Todo struct {
 	ID        int    `json:"id"`
@@ -22,14 +28,15 @@ type Exec struct {
 	RowsAffected int64 `json:"rowsAffected"`
 }
 
-func main() {
+func init() {
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// for local dev will handle later
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
-	PORT := os.Getenv("PORT")
+	// PORT := os.Getenv("PORT")
 	DB_URL := os.Getenv("DB_URL")
 	DB_TOKEN := os.Getenv("DB_TOKEN")
 
@@ -124,5 +131,17 @@ func main() {
 
 	})
 
-	log.Fatal(app.Listen(":" + PORT))
+	fiberLambda = fiberadapter.New(app)
+
+	// log.Fatal(app.Listen(":" + PORT))
+}
+// Handler will deal with Fiber working with Lambda
+func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	// If no name is provided in the HTTP request body, throw an error
+	return fiberLambda.ProxyWithContext(ctx, req)
+}
+
+func main() {
+	// Make the handler available for Remote Procedure Call by AWS Lambda
+	lambda.Start(Handler)
 }
