@@ -58,7 +58,7 @@ func init() {
 
 	todos := []Todo{}
 
-	app.Get("/api/todos/", func(c *fiber.Ctx) error {
+	app.Get("/todos/", func(c *fiber.Ctx) error {
 		todos, err = dboperations.Query_helper[Todo](db, "SELECT * FROM todos")
 		if err != nil {
 			return err
