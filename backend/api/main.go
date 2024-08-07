@@ -39,7 +39,7 @@ func init() {
 	// PORT := os.Getenv("PORT")
 	DB_URL := os.Getenv("DB_URL")
 	DB_TOKEN := os.Getenv("DB_TOKEN")
-	BASE_URL := "/.netlify/functions/"
+	BASE_URL := "/.netlify/functions"
 
 	log.Println("DB_URL: ", DB_URL)
 	log.Println("DB_TOKEN: ", DB_TOKEN)
@@ -63,7 +63,7 @@ func init() {
 
 	todos := []Todo{}
 
-	app.Get(BASE_URL +"/todos/", func(c *fiber.Ctx) error {
+	app.Get(BASE_URL +"/api/todos/", func(c *fiber.Ctx) error {
 		
 		log.Println("enter /todos")
 		todos, err = dboperations.Query_helper[Todo](db, "SELECT * FROM todos")
