@@ -149,8 +149,7 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 	// If no name is provided in the HTTP request body, throw an error
 	log.Println("handler called")
 	log.Println("req: ", req)
-	log.Panicln("ctx: ", ctx)
-	// log.Println("req: ", req.Path)
+	log.Println("req: ", req.Path)
 	return fiberLambda.ProxyWithContext(ctx, req)
 }
 
