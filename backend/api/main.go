@@ -65,7 +65,7 @@ func init() {
 
 	app.Get(BASE_URL +"/todos/", func(c *fiber.Ctx) error {
 		
-		log.Panicln('enter /todos')
+		log.Println("enter /todos")
 		todos, err = dboperations.Query_helper[Todo](db, "SELECT * FROM todos")
 		if err != nil {
 			return err
