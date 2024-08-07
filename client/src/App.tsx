@@ -5,7 +5,7 @@ import TodoList from './components/TodoList'
 import Disclaimer from './components/Disclaimer'
 import Footer from './components/Footer'
 
-export const BASE_URL = 'http://localhost:4500/api'
+export const BASE_URL = 'https://go-react-todo.netlify.app/.netlify/functions/api'
 
 function App() {
 
