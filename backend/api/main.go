@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
+	// "log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/hadyrashwan/golang-for-node-devs/dboperations"
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
