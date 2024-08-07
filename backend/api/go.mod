@@ -1,6 +1,6 @@
 module github.com/hadyrashwan/golang-for-node-devs
 
-go 1.22
+go 1.20
 
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect
