@@ -39,6 +39,7 @@ func init() {
 	// PORT := os.Getenv("PORT")
 	DB_URL := os.Getenv("DB_URL")
 	DB_TOKEN := os.Getenv("DB_TOKEN")
+	BASE_URL := "/.netlify/functions/"
 
 	log.Println("DB_URL: ", DB_URL)
 	log.Println("DB_TOKEN: ", DB_TOKEN)
@@ -62,7 +63,9 @@ func init() {
 
 	todos := []Todo{}
 
-	app.Get("/todos/", func(c *fiber.Ctx) error {
+	app.Get(BASE_URL +"/todos/", func(c *fiber.Ctx) error {
+		
+		log.Panicln('enter /todos')
 		todos, err = dboperations.Query_helper[Todo](db, "SELECT * FROM todos")
 		if err != nil {
 			return err
@@ -72,7 +75,7 @@ func init() {
 		})
 	})
 
-	app.Post("/api/todos", func(c *fiber.Ctx) error {
+	app.Post(BASE_URL +"/api/todos", func(c *fiber.Ctx) error {
 		todo := &Todo{}
 		if err := c.BodyParser(todo); err != nil {
 			return err
@@ -91,7 +94,7 @@ func init() {
 		return c.Status(201).JSON(todo)
 	})
 
-	app.Patch("/api/todos/:id", func(c *fiber.Ctx) error {
+	app.Patch(BASE_URL +"/api/todos/:id", func(c *fiber.Ctx) error {
 		id := c.Params("id")
 
 		query := `
@@ -115,7 +118,7 @@ func init() {
 
 	})
 
-	app.Delete("/api/todos/:id", func(c *fiber.Ctx) error {
+	app.Delete(BASE_URL +"/api/todos/:id", func(c *fiber.Ctx) error {
 		id := c.Params("id")
 
 		query := `
@@ -147,7 +150,7 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 	log.Println("handler called")
 	log.Println("req: ", req)
 	log.Panicln("ctx: ", ctx)
-	log.Println("req: ", req.Path)
+	// log.Println("req: ", req.Path)
 	return fiberLambda.ProxyWithContext(ctx, req)
 }
 
