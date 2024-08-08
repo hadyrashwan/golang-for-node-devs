@@ -25,7 +25,7 @@ To run the project locally, follow these steps:
 
 ### Backend
 
-1. Set the environment variables mentioned above in a `.env` file in the `backend/api` directory.
+1. Create a new file named `.env` in the `backend/api` directory based on `.env.local.example`.
 2. Run the following command to start the backend server:
    ```shell
    go run main.go
@@ -48,16 +48,8 @@ To run the project locally, follow these steps:
 
 To deploy the project to Netlify, follow these steps:
 
-1. Set the environment variables mentioned above in the Netlify project settings.
-2. Configure the build command to build the backend server:
-   ```shell
-   go build -o main
-   ```
-3. Set the start command to run the backend server:
-   ```shell
-   ./main
-   ```
-4. Deploy the project to Netlify.
+1. Set the environment variables from `backend/api/.env.netlify.example` in the Netlify project settings.
+2. Deploy the project to Netlify.
 
 ## API Documentation
 
