@@ -1,6 +1,7 @@
 # Todo App
 
 A todo app built using Turso and Go.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0a743edc-8c45-49a3-ba9d-922c15554c3c/deploy-status)](https://app.netlify.com/sites/go-react-todo/deploys)
 
 ## Technologies Used
 
@@ -34,22 +35,27 @@ To run the project locally, follow these steps:
 
 ### Frontend
 
-1. Install the project dependencies by running the following command in the `client` directory:
+1. Create a new file named `.env` in the `client` directory based on `.env.local.example`.
+
+2. Install the project dependencies by running the following command in the `client` directory:
    ```shell
    npm install
    ```
-2. Start the development server by running the following command in the `client` directory:
+3. Start the development server by running the following command in the `client` directory:
    ```shell
    npm run dev
    ```
-3. The frontend will start and be accessible at url mentioned in the console.
-
+4. The frontend will start and be accessible at url mentioned in the console.
+ 
 ## Deploying to Netlify
 
 To deploy the project to Netlify, follow these steps:
 
-1. Set the environment variables from `backend/api/.env.netlify.example` in the Netlify project settings.
-2. Deploy the project to Netlify.
+1. Set the environment variables found in backend/api/.env.netlify.example within your Netlify project settings.
+
+2. Set the environment variables from client/.env.example in your Netlify project settings, adjusting them according to your site's naming conventions.
+
+3. Deploy the project to Netlify.
 
 ## API Documentation
 
