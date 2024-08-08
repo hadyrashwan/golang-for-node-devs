@@ -9,13 +9,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/hadyrashwan/golang-for-node-devs/dboperations"
-	// "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	fiberadapter "github.com/awslabs/aws-lambda-go-api-proxy/fiber"
 )
 var fiberLambda *fiberadapter.FiberLambda
+
+var fiber_server *fiber.App
 
 type Todo struct {
 	ID        int    `json:"id"`
@@ -28,21 +30,24 @@ type Exec struct {
 	RowsAffected int64 `json:"rowsAffected"`
 }
 
+
+
 func init() {
-
+	
 	// for local dev will handle later
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
-
-	// PORT := os.Getenv("PORT")
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Println("The .env is not loaded")
+	}
+	
 	DB_URL := os.Getenv("DB_URL")
 	DB_TOKEN := os.Getenv("DB_TOKEN")
-	BASE_URL := "/.netlify/functions"
+	BASE_URL := os.Getenv("BACKEND_BASE_URL")
+	PORT := os.Getenv("BACKEND_PORT")
+
 
 	log.Println("DB_URL: ", DB_URL)
-	log.Println("DB_TOKEN: ", DB_TOKEN)
+	log.Println("PORT: ", PORT)
 
 
 	url := fmt.Sprintf("%s?authToken=%s", DB_URL, DB_TOKEN)
@@ -142,19 +147,34 @@ func init() {
 
 	fiberLambda = fiberadapter.New(app)
 
+	fiber_server = app
 	// log.Fatal(app.Listen(":" + PORT))
 }
 // Handler will deal with Fiber working with Lambda
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// If no name is provided in the HTTP request body, throw an error
 	log.Println("handler called")
 	log.Println("req: ", req)
-	log.Println("req: ", req.Path)
+	log.Println("req.path: ", req.Path)
 	return fiberLambda.ProxyWithContext(ctx, req)
 }
 
 func main() {
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Println("The .env is not loaded")
+	}
+
+	IS_LOCAL := os.Getenv("IS_LOCAL")
+	PORT := os.Getenv("BACKEND_PORT")
+
 	log.Println("main called")
-	// Make the handler available for Remote Procedure Call by AWS Lambda
-	lambda.Start(Handler)
+	log.Println("IS_LOCAL: ", IS_LOCAL)
+	log.Println("PORT: ", PORT)
+
+	if( IS_LOCAL == "true" ){
+		log.Fatal(fiber_server.Listen(":" + PORT))
+	}else{
+		lambda.Start(Handler)
+	}
 }
