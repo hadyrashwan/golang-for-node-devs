@@ -1,30 +1,74 @@
-# React + TypeScript + Vite
+Sure, I can help you add a section for running the frontend. Here's an example of how you can update the `README.md` file to include instructions for running the frontend:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+```markdown
+# Todo App
 
-Currently, two official plugins are available:
+A todo app built using Turso and Go.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies Used
 
-## Expanding the ESLint configuration
+- Frontend: React, Chakra UI,Vite
+- Backend: Turso, Go
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Environment Variables
 
-- Configure the top-level `parserOptions` property like this:
+The following environment variables are required for the project to function properly:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- `BACKEND_PORT`: The port number on which the backend server will run.
+- `DB_URL`: The URL of the database used by the project.
+- `DB_TOKEN`: The token required to authenticate with the database.
+- `GO_VERSION`: The version of Go used for building the backend.
+- `IS_LOCAL`: A boolean value indicating whether the project is running locally or not.
+
+Make sure to set these environment variables before running the project.
+
+## Running Locally
+
+To run the project locally, follow these steps:
+
+### Backend
+
+1. Set the environment variables mentioned above in a `.env` file in the `backend/api` directory.
+2. Run the following command to start the backend server:
+   ```shell
+   go run main.go
+   ```
+3. The backend server will start and listen on the port specified by the `BACKEND_PORT` environment variable.
+
+### Frontend
+
+1. Install the project dependencies by running the following command in the `client` directory:
+   ```shell
+   npm install
+   ```
+2. Start the development server by running the following command in the `client` directory:
+   ```shell
+   npm run dev
+   ```
+3. The frontend will start and be accessible at url mentioned in the console.
+
+## Deploying to Netlify
+
+To deploy the project to Netlify, follow these steps:
+
+1. Set the environment variables mentioned above in the Netlify project settings.
+2. Configure the build command to build the backend server:
+   ```shell
+   go build -o main
+   ```
+3. Set the start command to run the backend server:
+   ```shell
+   ./main
+   ```
+4. Deploy the project to Netlify.
+
+## API Documentation
+
+For API documentation, please refer to the [Postman documentation](https://www.postman.com/hady-space/workspace/golang-for-node-devs/overview).
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Feel free to customize this section to fit your project's specific needs. Let me know if you need any further assistance!
