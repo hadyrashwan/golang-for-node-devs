@@ -1,4 +1,3 @@
-Sure, I can help you add a section for running the frontend. Here's an example of how you can update the `README.md` file to include instructions for running the frontend:
 
 ```markdown
 # Todo App
