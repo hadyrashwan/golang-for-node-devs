@@ -1,4 +1,4 @@
-import { Box, Flex, Button, useColorModeValue, useColorMode, Text, Container } from "@chakra-ui/react";
+import { Box, Flex, Button, useColorModeValue, useColorMode, Text, Container, VisuallyHidden } from "@chakra-ui/react";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";
 
@@ -24,8 +24,18 @@ export default function Navbar() {
 						<Text fontSize={"lg"} fontWeight={500}>
 							Daily Tasks
 						</Text>
-						<Button onClick={toggleColorMode}>
-							{colorMode === "light" ? <IoMoon /> : <LuSun size={20} />}
+						<Button onClick={toggleColorMode} variant="ghost" role="switch" aria-checked={colorMode === "light"} title="Toggle Dark Mode">
+							{colorMode === "light" ? (
+								<>
+									<VisuallyHidden>Dark Mode</VisuallyHidden>
+									<IoMoon />
+								</>
+							) : (
+								<>
+									<VisuallyHidden>Light Mode</VisuallyHidden>
+									<LuSun size={20} />
+								</>
+							)}
 						</Button>
 					</Flex>
 				</Flex>

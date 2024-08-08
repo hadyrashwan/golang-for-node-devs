@@ -50,6 +50,7 @@ const TodoForm = () => {
         <Button
           mx={2}
           type="submit"
+          title="Add Todo"
           _active={{
             transform: "scale(.97)",
           }}
