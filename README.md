@@ -1,5 +1,3 @@
-
-```markdown
 # Todo App
 
 A todo app built using Turso and Go.
@@ -68,6 +66,3 @@ For API documentation, please refer to the [Postman documentation](https://www.p
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-```
-
-Feel free to customize this section to fit your project's specific needs. Let me know if you need any further assistance!
