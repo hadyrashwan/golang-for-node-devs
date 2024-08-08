@@ -4,8 +4,8 @@ A todo app built using Turso and Go.
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0a743edc-8c45-49a3-ba9d-922c15554c3c/deploy-status)](https://app.netlify.com/sites/go-react-todo/deploys)
 
 ## Demo
+Check out the demo of this project [**here**](https://go-react-todo.netlify.app/).
 
-You can see a demo of this project at the [**demo**](https://go-react-todo.netlify.app/)
 
 ## Technologies Used
 
