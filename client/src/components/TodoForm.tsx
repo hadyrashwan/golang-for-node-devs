@@ -44,6 +44,7 @@ const TodoForm = () => {
         <Input
           type="text"
           value={newTodo}
+          title="Add Todo Text"
           onChange={(e) => setNewTodo(e.target.value)}
           ref={(input) => input && input.focus()}
         />
