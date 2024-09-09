@@ -1,6 +1,6 @@
-# Todo App
+# To-do App
 
-A todo app built using Turso and Go.
+A to-do app built using Turso and Go.
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0a743edc-8c45-49a3-ba9d-922c15554c3c/deploy-status)](https://app.netlify.com/sites/go-react-todo/deploys)
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/hadyrashwan/golang-for-node-devs)
@@ -12,18 +12,18 @@ Check out the demo of this project [**here**](https://go-react-todo.netlify.app/
 
 ## Technologies Used
 
-- Frontend: React, Chakra UI,Vite
+- Frontend: React, Chakra UI, Vite
 - Backend: Turso, Go
 
 ## Environment Variables
 
 The following environment variables are required for the project to function properly:
 
-- `BACKEND_PORT`: The port number on which the backend server will run.
-- `DB_URL`: The URL of the database used by the project.
-- `DB_TOKEN`: The token required to authenticate with the database.
-- `GO_VERSION`: The version of Go used for building the backend.
-- `IS_LOCAL`: A boolean value indicating whether the project is running locally or not.
+- `BACKEND_PORT` The port number on which the backend server will run.
+- `DB_URL` The URL of the database used by the project.
+- `DB_TOKEN` The token required to authenticate with the database.
+- `GO_VERSION` The version of Go used for building the backend.
+- `IS_LOCAL` A boolean value indicating whether the project is running locally or not.
 
 Make sure to set these environment variables before running the project.
 
@@ -52,7 +52,7 @@ To run the project locally, follow these steps:
    ```shell
    npm run dev
    ```
-4. The frontend will start and be accessible at url mentioned in the console.
+4. The frontend will start and be accessible at URL mentioned in the console.
  
 ## Deploying to Netlify
 
