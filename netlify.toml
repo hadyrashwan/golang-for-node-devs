@@ -7,3 +7,7 @@
 # Directory where Netlify functions are stored
 [functions]
   directory = "backend"
+
+[[functions.schedule]]
+  path = "/.netlify/functions/api/todos"
+  cron = "0 * * * *" # run at the start of every hour

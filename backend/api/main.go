@@ -70,7 +70,6 @@ func init() {
 
 	app.Get(BASE_URL +"/api/todos/", func(c *fiber.Ctx) error {
 		
-		log.Println("enter /todos")
 		todos, err = dboperations.Query_helper[Todo](db, "SELECT * FROM todos")
 		if err != nil {
 			return err
@@ -143,8 +142,6 @@ func init() {
 
 	})
 
-	log.Println("app defined: ", app)
-
 	fiberLambda = fiberadapter.New(app)
 
 	fiber_server = app
@@ -152,9 +149,6 @@ func init() {
 }
 // Handler will deal with Fiber working with Lambda
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.Println("handler called")
-	log.Println("req: ", req)
-	log.Println("req.path: ", req.Path)
 	return fiberLambda.ProxyWithContext(ctx, req)
 }
 
@@ -167,10 +161,6 @@ func main() {
 
 	IS_LOCAL := os.Getenv("IS_LOCAL")
 	PORT := os.Getenv("BACKEND_PORT")
-
-	log.Println("main called")
-	log.Println("IS_LOCAL: ", IS_LOCAL)
-	log.Println("PORT: ", PORT)
 
 	if( IS_LOCAL == "true" ){
 		log.Fatal(fiber_server.Listen(":" + PORT))
