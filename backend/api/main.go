@@ -19,12 +19,6 @@ var fiberLambda *fiberadapter.FiberLambda
 
 var fiber_server *fiber.App
 
-type Todo struct {
-	ID        int    `json:"id"`
-	Body      string `json:"body"`
-	Completed bool   `json:"completed"`
-}
-
 type Exec struct {
 	LastInsertId int64 `json:"lastInsertId"`
 	RowsAffected int64 `json:"rowsAffected"`
@@ -66,87 +60,23 @@ func init() {
 	}
 	app.Use(cors.New(crosConfig))
 
-	todos := []Todo{}
 
-	app.Get(BASE_URL +"/api/todos/", func(c *fiber.Ctx) error {
-		
-		todos, err = dboperations.Query_helper[Todo](db, "SELECT * FROM todos")
-		if err != nil {
-			return err
-		}
-		return c.Status(200).JSON(fiber.Map{
-			"todos": todos,
-		})
-	})
+	handlers := NewTodoHandlers(db)
 
-	app.Post(BASE_URL +"/api/todos", func(c *fiber.Ctx) error {
-		todo := &Todo{}
-		if err := c.BodyParser(todo); err != nil {
-			return err
-		}
-		if todo.Body == "" {
-			return c.Status(400).JSON(fiber.Map{
-				"error": "Todo body cannot be empty",
-			})
-		}
-		query := "INSERT INTO todos (body, completed) VALUES (?, ?)"
-		result, err := dboperations.Exec_helper[Todo](db, query, todo.Body, todo.Completed)
-		if err != nil {
-			return err
-		}
-		todo.ID = int(result.LastInsertId)
-		return c.Status(201).JSON(todo)
-	})
 
-	app.Patch(BASE_URL +"/api/todos/:id", func(c *fiber.Ctx) error {
-		id := c.Params("id")
-
-		query := `
-		UPDATE todos
-		SET completed = ?
-		WHERE id = ?`
-		result, err := dboperations.Exec_helper[Todo](db, query, true, id)
-		if err != nil {
-			return err
-		}
-		if result.RowsAffected == 0 {
-			return c.Status(400).JSON(fiber.Map{
-				"error": "Todo not found",
-			})
-		}
-		todos, err = dboperations.Query_helper[Todo](db, "SELECT * FROM todos WHERE id = ?", id)
-		if err != nil {
-			return err
-		}
-		return c.Status(200).JSON(todos[0])
-
-	})
-
-	app.Delete(BASE_URL +"/api/todos/:id", func(c *fiber.Ctx) error {
-		id := c.Params("id")
-
-		query := `
-		DELETE FROM todos WHERE id = ?`
-		result, err := dboperations.Exec_helper[Todo](db, query, id)
-		if err != nil {
-			return err
-		}
-		if result.RowsAffected == 0 {
-			return c.Status(400).JSON(fiber.Map{
-				"error": "Todo not found",
-			})
-		}
-		return c.Status(200).JSON(fiber.Map{
-			"message": "Todo deleted",
-		})
-
-	})
+	app.Get(BASE_URL +"/api/todos/", handlers.GetApi)
+	app.Post(BASE_URL +"/api/todos", handlers.PostApi)
+	app.Patch(BASE_URL +"/api/todos/:id", handlers.PatchApi)
+	app.Delete(BASE_URL +"/api/todos/:id", handlers.DeleteApi)
 
 	fiberLambda = fiberadapter.New(app)
 
 	fiber_server = app
-	// log.Fatal(app.Listen(":" + PORT))
 }
+
+
+
+
 // Handler will deal with Fiber working with Lambda
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	return fiberLambda.ProxyWithContext(ctx, req)
