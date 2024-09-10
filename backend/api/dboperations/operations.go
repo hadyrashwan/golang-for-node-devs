@@ -4,17 +4,11 @@ package dboperations
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 	"reflect"
 
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
-
-type DBHandler interface {
-	Query(query string, args ...interface{}) ([]interface{}, error)
-	Exec(query string, args ...interface{}) (Exec, error)
-}
 
 type Exec struct {
 	LastInsertId int64 `json:"lastInsertId"`
@@ -23,6 +17,11 @@ type Exec struct {
 
 type SQLDB struct {
 	DB *sql.DB
+}
+
+type DBHandler interface {
+	Query_helper(query string, args ...interface{}) (any, error)
+	Exec_helper(query string, args ...interface{}) (Exec, error)
 }
 
 // Connect opens a connection to the database and wraps it in an SQLDB struct
@@ -99,9 +98,4 @@ func  Exec_helper[T any](db *SQLDB, query string, args ...interface{}) (Exec, er
 	exec.RowsAffected()
 
 	return result, nil
-}
-
-func main() {
-	log.Println("DB_URL: ", os.Getenv("DB_URL"))
-
 }

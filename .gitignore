@@ -4,3 +4,4 @@ air
 .env
 __debug_bin*
 .DS_Store
+backend/api/main

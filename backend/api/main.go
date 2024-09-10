@@ -35,6 +35,7 @@ func init() {
 	}
 	
 	DB_URL := os.Getenv("DB_URL")
+
 	DB_TOKEN := os.Getenv("DB_TOKEN")
 	BASE_URL := os.Getenv("BACKEND_BASE_URL")
 	PORT := os.Getenv("BACKEND_PORT")
@@ -84,13 +85,10 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 
 func main() {
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Println("The .env is not loaded")
-	}
-
 	IS_LOCAL := os.Getenv("IS_LOCAL")
 	PORT := os.Getenv("BACKEND_PORT")
+
+
 
 	if( IS_LOCAL == "true" ){
 		log.Fatal(fiber_server.Listen(":" + PORT))
