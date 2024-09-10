@@ -7,4 +7,3 @@
 # Directory where Netlify functions are stored
 [functions]
   directory = "backend"
-  schedule = "@hourly"
