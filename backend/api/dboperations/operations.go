@@ -4,28 +4,40 @@ package dboperations
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 	"reflect"
 
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
+type DBHandler interface {
+	Query(query string, args ...interface{}) ([]interface{}, error)
+	Exec(query string, args ...interface{}) (Exec, error)
+}
+
 type Exec struct {
 	LastInsertId int64 `json:"lastInsertId"`
 	RowsAffected int64 `json:"rowsAffected"`
 }
 
-func Connect(dbUrl string) (*sql.DB, error) {
-	db, err := sql.Open("libsql", dbUrl)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to connect to database: %v\n", err)
-		os.Exit(1)
-	}
-	return db, nil
+type SQLDB struct {
+	DB *sql.DB
 }
 
-func Query_helper[T any](db *sql.DB, query string, args ...interface{}) ([]T, error) {
-	rows, err := db.Query(query, args...)
+// Connect opens a connection to the database and wraps it in an SQLDB struct
+func Connect(dbUrl string) (*SQLDB, error) {
+	db, err := sql.Open("libsql", dbUrl)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to database: %v", err)
+	}
+	return &SQLDB{DB: db}, nil // Wrap in SQLDB
+}
+
+
+
+func Query_helper[T any](db *SQLDB, query string, args ...interface{}) ([]T, error) {
+	rows, err := db.DB.Query(query, args...)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to execute query: %v\n", err)
 		os.Exit(1)
@@ -61,8 +73,8 @@ func Query_helper[T any](db *sql.DB, query string, args ...interface{}) ([]T, er
 	return objects, nil
 }
 
-func Exec_helper[T any](db *sql.DB, query string, args ...interface{}) (Exec, error) {
-	exec, err := db.Exec(query, args...)
+func  Exec_helper[T any](db *SQLDB, query string, args ...interface{}) (Exec, error) {
+	exec, err := db.DB.Exec(query, args...)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to execute query: %v\n", err)
 		os.Exit(1)
@@ -87,4 +99,9 @@ func Exec_helper[T any](db *sql.DB, query string, args ...interface{}) (Exec, er
 	exec.RowsAffected()
 
 	return result, nil
+}
+
+func main() {
+	log.Println("DB_URL: ", os.Getenv("DB_URL"))
+
 }
