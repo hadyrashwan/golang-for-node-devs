@@ -1,15 +1,16 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"bytes"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gofiber/fiber/v2"
-	"github.com/stretchr/testify/assert"
 	"github.com/hadyrashwan/golang-for-node-devs/dboperations"
+	"github.com/stretchr/testify/assert"
 )
 
 // TestGetTodos is an example of how you can test your handler with sqlmock
@@ -124,20 +125,23 @@ func TestPatchTodo(t *testing.T) {
 	handlers := NewTodoHandlers(sqlDB)
 	app.Patch("/api/todos/:id", handlers.PatchApi)
 
+	// Create the request body
+	reqBody := []byte(`{"completed": true}`)
+
 	// Mock the UPDATE query
-	mock.ExpectExec("UPDATE todos SET completed = ? WHERE id = ?").
+	mock.ExpectExec("UPDATE todos SET completed = \\? WHERE id = \\?").
 		WithArgs(true, "1").
 		WillReturnResult(sqlmock.NewResult(0, 1)) // 1 row affected
 
 	// Mock the SELECT query to return the updated todo
 	rows := sqlmock.NewRows([]string{"id", "body", "completed"}).
 		AddRow(1, "Updated todo", true)
-	mock.ExpectQuery("SELECT \\* FROM todos WHERE id = ?").
+	mock.ExpectQuery("SELECT \\* FROM todos WHERE id = \\?").
 		WithArgs("1").
 		WillReturnRows(rows)
 
 	// Create the PATCH request
-	req := httptest.NewRequest("PATCH", "/api/todos/1", nil)
+	req := httptest.NewRequest("PATCH", "/api/todos/1", bytes.NewBuffer(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 
 	// Test the request
@@ -145,7 +149,7 @@ func TestPatchTodo(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Check if the status code is 200 (OK)
-	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Equal(t, 200, resp.StatusCode)
 
 	// Decode the JSON response
 	var result Todo
@@ -153,6 +157,7 @@ func TestPatchTodo(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Check the response data
+	assert.Equal(t, 1, result.ID)
 	assert.Equal(t, "Updated todo", result.Body)
 	assert.True(t, result.Completed)
 
