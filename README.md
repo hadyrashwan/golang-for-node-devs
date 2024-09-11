@@ -7,7 +7,7 @@ A to-do app built using Turso and Go.
 
 
 ## Demo
-Check out the demo of this project [**here**](https://go-react-todo.netlify.app/).
+Check out the demo of this project [**here**](https://go-terso-todo.techcrafter.online/).
 
 
 ## Technologies Used
