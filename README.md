@@ -14,7 +14,9 @@ Check out the demo of this project [**here**](https://go-react-todo.netlify.app/
 
 - Frontend: React, Chakra UI, Vite
 - Backend: Turso, Go
+## Running Backend Tests
 
+To run the tests for the backend you can run: `go test ./...`
 ## Environment Variables
 
 The following environment variables are required for the project to function properly:
@@ -36,7 +38,7 @@ To run the project locally, follow these steps:
 1. Create a new file named `.env` in the `backend/api` directory based on `.env.local.example`.
 2. Run the following command to start the backend server:
    ```shell
-   go run main.go
+   go run .
    ```
 3. The backend server will start and listen on the port specified by the `BACKEND_PORT` environment variable.
 
@@ -63,6 +65,7 @@ To deploy the project to Netlify, follow these steps:
 2. Set the environment variables from client/.env.netlify.example in your Netlify project settings, adjusting them according to your site's naming conventions.
 
 3. Deploy the project to Netlify.
+
 
 ## API Documentation
 
